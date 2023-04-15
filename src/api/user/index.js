@@ -1,13 +1,19 @@
 import { Router } from 'express';
-import { signup,checkUserExists } from './controller';
-import { registerValidator, validations } from './middleware';
+import { login,signup,checkUserExists } from './controller';
+import { isValid, signUpVlidations, loginValidations } from './middleware';
 
 const router = new Router();
 
 router.post("/register", 
-validations,
-registerValidator, 
+signUpVlidations,
+isValid, 
 checkUserExists, 
 signup);
+
+
+router.post("/login",
+loginValidations,
+isValid,
+login);
 
 export default router;

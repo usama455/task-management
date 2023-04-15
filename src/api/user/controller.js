@@ -1,12 +1,14 @@
 import User from "./model";
 import { logger, responseError, responseMessage } from "./../../utils/";
+import passport from "passport";
+import { errorResponse, responseStatus, successResponse } from "../../utils/response";
 
 
 export const checkUserExists = async ({ body }, res, next) => {
 	const { email } = body;
 	const user = await User.findOne({ email });
 	if (user) {
-		return res.json({ success: false, error: responseError.userExists });
+		return errorResponse(res, responseError.userExists, responseStatus.conflict )
 	}
 	return next();
 };
@@ -24,13 +26,28 @@ export const signup = async (req, res) => {
 			createdAt: userInfo?.createdAt,
 			updatedAt: userInfo?.updatedAt,
 		}
-		return res.json({
-			success: true,
-			message: responseMessage.created,
-			data: { user: responseObject },
-		  });
+		return successResponse(res,responseObject,responseMessage.created, responseStatus.created )
+	
 	} catch (err) {
 		logger.error(err.message);
-		return res.json({ err });
+		return errorResponse(res,err)
+	}
+};
+
+export const login = async (req, res, next) => {
+	try {
+		  await passport.authenticate("local", (err, token, info) => {
+			if (err) {
+				return errorResponse(res, err.message, err.status)
+			}
+			const responseObject = {
+				token 
+			}
+			return successResponse(res , responseObject   )
+			
+		})(req, res, next);
+	} catch (err) {
+		logger.error(err.message);
+		return errorResponse(res, err.message)
 	}
 };

@@ -1,9 +1,11 @@
 import path from 'path';
 import merge from 'lodash/merge';
+import { logger } from './utils';
 
 const requireProcessEnv = (name) => {
   if (!process.env[name]) {
-    throw new Error('You must set the ' + name + ' environment variable');
+    logger.error(`Environment valrable missing : ${name}`)
+    throw new Error(`You must set the ${name}  environment variable`);
   }
   return process.env[name];
 };

@@ -6,10 +6,12 @@ import { env, frontendURL } from '../../config';
 import passport from 'passport';
 import { connectDatabase } from '../database';
 import session from 'express-session';
+import { initializePassport } from '../passport';
 
 
 export default (apiRoot, routes) => {
   const app = express();
+  initializePassport(passport);
 
 
   app.use(session({

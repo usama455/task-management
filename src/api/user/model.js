@@ -1,7 +1,6 @@
 import { Schema, model } from "mongoose";
-import bcrypt from "bcrypt";
-import { jwt } from "jsonwebtoken";
 import { comparePassword, genHash } from "../../services/bcrypt";
+import { sign } from "../../services/jwt";
 
 const UserSchema = new Schema(
 	{
@@ -21,6 +20,10 @@ const UserSchema = new Schema(
 		password: {
 			type: String,
 			required: true
+		},
+		isVerified: {
+			type: Boolean,
+			default: false
 		}
 	},
 	{
@@ -42,18 +45,7 @@ UserSchema.methods.validatePassword = async function (password) {
 };
 
 UserSchema.methods.generateJWT = function () {
-	const today = new Date();
-	const expirationDate = new Date(today);
-	expirationDate.setDate(today.getDate() + 60);
-
-	return jwt.sign(
-		{
-			email: this.email,
-			id: this._id,
-			exp: parseInt(expirationDate.getTime() / 1000, 10)
-		},
-		"secret"
-	);
+	return sign(this.email, this._id)
 };
 
 const User = model("User", UserSchema);

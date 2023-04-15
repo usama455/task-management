@@ -1,22 +1,33 @@
+// Function to generate success response
+export const successResponse = (res, data, message = "Success",status = 200) => {
+	return  res.status(status).json({ success: true, message , data});
+  };
+  
+  // Function to generate error response
+  export const errorResponse = (res, message = "Error", status = 500) => {
+	return res.status(status).json({ success: false, message });
+  };
+
+
 export const responseMessage = {
 	retrieved: "Record retrieved successfully",
 	created: "Record created successfully",
 	updated: "Record updated successfully",
 	deleted: "Record deleted successfully",
-	notFound: "Record not found",
 	validPassword: "Pasword is valid.",
 };
 
 export const responseError = {
+	notFound: "Record not found",
 	internalError: "Internal server error occurred",
 	unAuthorized: "You are unauthorized",
-	wrongPassOrEmail: "Wrong Password or Email Address",
+	wrongEmail: "Wrong Email",
 	wrongMasterKey: "Wrong Master Key",
-	wrongPass: "Wrong Password",
+	wrongPassword: "Wrong Password",
 	userExists: "Another user with this email is already registered"
 };
 
-export const resposeStatus = {
+export const responseStatus = {
 	ok: 200,
 	created: 201,
 	updated: 202,
@@ -24,6 +35,7 @@ export const resposeStatus = {
 	badRequest: 400,
 	unAuthorized: 401,
 	notFound: 404,
+	conflict: 409,
 	internalError: 500
 };
 

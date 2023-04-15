@@ -1,4 +1,4 @@
-import { genSalt, hash } from "bcrypt";
+import { compare, genSalt, hash } from "bcrypt";
 const SALT_WORK_FACTOR = 10;
 
 export const genHash = async (password) => {
@@ -8,5 +8,5 @@ export const genHash = async (password) => {
 };
 
 export const comparePassword = async(password, existingPassword) =>{
-  return await bcrypt.compare(password, this.password);
+  return await compare(password,existingPassword);
 }
