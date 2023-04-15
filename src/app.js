@@ -1,4 +1,3 @@
-import http from 'http';
 import { env, port, ip, apiRoot } from './config';
 import express from './services/express';
 import api from './api';

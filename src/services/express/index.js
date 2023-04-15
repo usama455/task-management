@@ -5,8 +5,19 @@ import compression from 'compression';
 import { env, frontendURL } from '../../config';
 import passport from 'passport';
 import mongo from "../../configure/database";
+import session from 'express-session';
+
+
 export default (apiRoot, routes) => {
   const app = express();
+
+
+  app.use(session({
+    secret: process.env.MASTER_KEY,
+    resave: false,
+    saveUninitialized: false
+  }));
+
   app.use(passport.initialize());
   app.use(passport.session());
 
@@ -18,7 +29,6 @@ export default (apiRoot, routes) => {
     app.use(forceSSL);
   }
 
-  /* istanbul ignore next */
   if (env === 'production' || env === 'development') {
     app.use(compression());
   }
