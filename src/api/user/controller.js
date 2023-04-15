@@ -1,12 +1,12 @@
 import User from "./model";
-import { logger } from "./../../utils/";
+import { logger, responseError, responseMessage } from "./../../utils/";
 
 
 export const checkUserExists = async ({ body }, res, next) => {
 	const { email } = body;
 	const user = await User.findOne({ email });
 	if (user) {
-		return res.json({ success: false, error: 'User already exists' });
+		return res.json({ success: false, error: responseError.userExists });
 	}
 	return next();
 };
@@ -26,6 +26,7 @@ export const signup = async (req, res) => {
 		}
 		return res.json({
 			success: true,
+			message: responseMessage.created,
 			data: { user: responseObject },
 		  });
 	} catch (err) {

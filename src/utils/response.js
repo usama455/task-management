@@ -1,18 +1,19 @@
-export const messages = {
+export const responseMessage = {
 	retrieved: "Record retrieved successfully",
 	created: "Record created successfully",
 	updated: "Record updated successfully",
 	deleted: "Record deleted successfully",
 	notFound: "Record not found",
-	validPassword: "Pasword is valid."
+	validPassword: "Pasword is valid.",
 };
 
-export const errors = {
+export const responseError = {
 	internalError: "Internal server error occurred",
 	unAuthorized: "You are unauthorized",
 	wrongPassOrEmail: "Wrong Password or Email Address",
 	wrongMasterKey: "Wrong Master Key",
-	wrongPass: "Wrong Password"
+	wrongPass: "Wrong Password",
+	userExists: "Another user with this email is already registered"
 };
 
 export const resposeStatus = {
@@ -25,3 +26,5 @@ export const resposeStatus = {
 	notFound: 404,
 	internalError: 500
 };
+
+
