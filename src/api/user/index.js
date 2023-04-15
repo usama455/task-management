@@ -1,6 +1,6 @@
 import { Router } from 'express';
-import { register } from './controller';
-import { checkUserExists, registerValidator, validations } from './middleware';
+import { signup,checkUserExists } from './controller';
+import { registerValidator, validations } from './middleware';
 
 const router = new Router();
 
@@ -8,6 +8,6 @@ router.post("/register",
 validations,
 registerValidator, 
 checkUserExists, 
-register);
+signup);
 
 export default router;

@@ -4,7 +4,7 @@ import cors from 'cors';
 import compression from 'compression';
 import { env, frontendURL } from '../../config';
 import passport from 'passport';
-import mongo from "../../configure/database";
+import { connectDatabase } from '../database';
 import session from 'express-session';
 
 
@@ -39,8 +39,7 @@ export default (apiRoot, routes) => {
     })
   );
 
-  mongo.connect();
-
+  connectDatabase();
   app.use(json());
   app.use(urlencoded({ extended: false }));
 
