@@ -44,9 +44,9 @@ UserSchema.methods.validatePassword = async function (password) {
 	return isMatch;
 };
 
-UserSchema.methods.generateJWT = function () {
-	return sign(this.email, this._id)
-};
+// UserSchema.methods.generateJWT = function () {
+// 	return sign({email: this.email, _id: this._id})
+// };
 
 const User = model("User", UserSchema);
 

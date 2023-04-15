@@ -4,8 +4,8 @@ import passport from "passport";
 import { errorResponse, responseStatus, successResponse } from "../../utils/response";
 
 
-export const checkUserExists = async ({ body }, res, next) => {
-	const { email } = body;
+export const checkUserExists = async (req, res, next) => {
+	const { email } = req.body;
 	const user = await User.findOne({ email });
 	if (user) {
 		return errorResponse(res, responseError.userExists, responseStatus.conflict )
