@@ -1,17 +1,21 @@
-const express = require('express');
-const dotenv = require('dotenv');
-dotenv.config();
-const app = express();
+import http from 'http';
+import { env, port, ip, apiRoot } from './config';
+import express from './services/express';
+import api from './api';
 
+const app = express(apiRoot, api);
+const server = http.createServer(app);
 app.use(express.json());
 
-// Routes
-app.get('/', (req, res) => {
-  res.send('Hello World!');
+setImmediate(() => {
+    app.listen(port, ip, () => {
+    console.log(
+      'Express server listening on http://%s:%d, in %s mode',
+      ip,
+      port,
+      env
+    );
+  });
 });
 
-// Start server
-const port = process.env.PORT || 3000;
-app.listen(port, () => {
-  console.log(`App listening at http://localhost:${port}`);
-});
+export default app;
