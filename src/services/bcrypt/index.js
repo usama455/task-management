@@ -7,6 +7,6 @@ export const genHash = async (password) => {
   return password;
 };
 
-export const comparePassword = async(password, existingPassword) =>{
-  return await compare(password,existingPassword);
-}
+export const comparePassword = async (password, existingPassword) => {
+  return await compare(password, existingPassword);
+};

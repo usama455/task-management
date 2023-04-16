@@ -23,7 +23,6 @@ export const createCard = async (req,res)=>{
 		}
         return successResponse(res,responseObject,responseMessage.created, responseStatus.created )
     }catch(err){
-        console.log("ERR", err)
 		logger.error(err.message);
 		return errorResponse(res,err.message)
     }
