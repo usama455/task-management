@@ -25,10 +25,11 @@ const config = {
     port: process.env.PORT || 9000,
     ip: process.env.IP || "0.0.0.0",
     apiRoot: process.env.API_ROOT || "",
-    masterKey: requireProcessEnv("MASTER_KEY"),
+    masterKey: requireProcessEnv("MASTER_KEY"), //todo
     jwtSecret: requireProcessEnv("JWT_SECRET"),
     frontendURL: requireProcessEnv("FRONTEND_URL"),
     expiresIn: requireProcessEnv("TOKEN_EXPIRES_IN"),
+    saltFactor: requireProcessEnv("SALT_WORK_FACTOR")
   },
   test: {},
   production: {

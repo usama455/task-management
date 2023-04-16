@@ -40,8 +40,7 @@ UserSchema.pre("save", async function (next) {
 });
 
 UserSchema.methods.validatePassword = async function (password) {
-  const isMatch = await comparePassword(password, this.password);
-  return isMatch;
+  return comparePassword(password, this.password);
 };
 
 // UserSchema.methods.generateJWT = function () {

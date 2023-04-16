@@ -17,8 +17,4 @@ export const signUpVlidations = [
   body("email").isLength({ max: 255 }),
   body("password").isLength({ min: 8, max: 50 }),
 ];
-export const loginValidations = [
-  body("email").isEmail(),
-  body("email").isLength({ max: 255 }),
-  body("password").isLength({ min: 8, max: 50 }),
-];
+

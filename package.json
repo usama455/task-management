@@ -5,6 +5,7 @@
   "main": "src",
   "scripts": {
     "start": "node .",
+    "dev": "nodemon -i \"*.test.js\" .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

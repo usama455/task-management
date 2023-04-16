@@ -22,7 +22,8 @@ export const checkUserExists = async (req, res, next) => {
 
 export const signup = async (req, res) => {
   try {
-    const newUser = new User({ ...req.body });
+    const { firstName, lastName, email } = req.body;
+    const newUser = new User({ firstName, lastName, email });
     const userInfo = await newUser.save();
     const responseObject = {
       id: userInfo.id,
@@ -60,3 +61,10 @@ export const login = async (req, res, next) => {
     return errorResponse(res, err.message);
   }
 };
+
+/* forget password flow
+req - email
+email - link-token  ( expiry)
+new req - token - 
+res ok 
+*/

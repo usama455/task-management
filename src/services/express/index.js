@@ -5,7 +5,7 @@ import compression from "compression";
 import { env, frontendURL } from "../../config";
 import passport from "passport";
 import { connectDatabase } from "../database";
-import session from "express-session";
+import session from "express-session"; //todo
 import { initializePassport } from "../passport";
 
 export default (apiRoot, routes) => {
@@ -32,7 +32,7 @@ export default (apiRoot, routes) => {
   }
 
   if (env === "production" || env === "development") {
-    app.use(compression());
+    app.use(compression()); // todo
   }
   app.use(
     cors({
@@ -42,8 +42,8 @@ export default (apiRoot, routes) => {
   );
 
   connectDatabase();
-  app.use(json());
-  app.use(urlencoded({ extended: false }));
+  app.use(json()); //todo
+  app.use(urlencoded({ extended: false })); //todo
 
   app.use(apiRoot, routes);
 
