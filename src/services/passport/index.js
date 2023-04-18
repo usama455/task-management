@@ -1,6 +1,7 @@
 import LocalStrategy from "passport-local";
 import User from "../../api/user/model";
 import { sign } from "../jwt";
+import { jwtSecret } from "../../config";
 import { responseError, responseStatus } from "../../utils";
 const passportJWT = require("passport-jwt");
 const JWTStrategy = passportJWT.Strategy;
@@ -24,7 +25,7 @@ export const initializePassport = async (passport) => {
           false
         );
       }
-      const token = sign(user.toJSON(), process.env.JWT_SECRET);
+      const token = sign(user.toJSON());
       return done(null, token);
     } catch (err) {
       return done(err);
@@ -43,10 +44,9 @@ export const initializePassport = async (passport) => {
     new JWTStrategy(
       {
         jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
-        secretOrKey: process.env.JWT_SECRET,
+        secretOrKey: jwtSecret,
       },
       async (jwtPayload, done) => {
-        console.log("HERE?")
         const user = await User.findById(jwtPayload._id);
         if (!user) return done(null, false);
         return done(null, user);

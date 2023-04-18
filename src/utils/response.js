@@ -29,6 +29,8 @@ export const responseError = {
   wrongMasterKey: "Wrong Master Key",
   wrongPassword: "Wrong Password",
   userExists: "Another user with this email is already registered",
+  expiredPasswordToken: "Reset password token expired",
+  wrongPasswordToken: "Wrong reset password token",
 };
 
 export const responseStatus = {

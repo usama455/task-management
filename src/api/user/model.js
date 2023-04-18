@@ -25,6 +25,9 @@ const UserSchema = new Schema(
       type: Boolean,
       default: true,
     },
+    resetPasswordToken: {
+      type: String,
+    },
   },
   {
     timestamps: true,
@@ -33,19 +36,14 @@ const UserSchema = new Schema(
 
 UserSchema.pre("save", async function (next) {
   const user = this;
-
   if (!user.isModified("password")) return next();
-  user.password = genHash(user.password);
+  user.password = await genHash(user.password);
   next();
 });
 
 UserSchema.methods.validatePassword = async function (password) {
   return comparePassword(password, this.password);
 };
-
-// UserSchema.methods.generateJWT = function () {
-// 	return sign({email: this.email, _id: this._id})
-// };
 
 const User = model("User", UserSchema);
 

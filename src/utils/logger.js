@@ -1,6 +1,5 @@
 const winston = require("winston");
 const { combine, timestamp, printf } = winston.format;
-// require('winston-papertrail').Papertrail;
 const myJsonFormat = printf((info) => {
   if (info.private) {
     console.log(

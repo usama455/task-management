@@ -1,13 +1,11 @@
 import { Router } from "express";
-// import { token } from '../services/passport';
-// import admin from './admin';
 import user from "./user";
 import card from "./card";
+import passport from "passport";
 
 const router = new Router();
 
-// router.use('/admin', token({ required: true, roles: ['admin'] }), admin);
 router.use("/user", user);
-router.use("/card", card);
+router.use("/card", passport.authenticate("jwt", { session: false }), card);
 
 export default router;

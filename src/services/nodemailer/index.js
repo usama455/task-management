@@ -1,29 +1,31 @@
 import nodemailer from "nodemailer";
 import { logger } from "../../utils";
-
-export const sendEmail = async (to, subject, html) => {
+import { frontendURL } from "../../config";
+export const sendEmail = async (emailBody) => {
   try {
+    let testAccount = await nodemailer.createTestAccount();
+
     const transporter = nodemailer.createTransport({
-      host: process.env.SMTP_HOST,
-      port: process.env.SMTP_PORT,
+      host: "smtp.ethereal.email",
+      port: 587,
       secure: false,
       auth: {
-        user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PASS,
+        user: testAccount.user, // generated fake ethereal user
+        pass: testAccount.pass, // generated fake ethereal password
       },
     });
-
     const mailOptions = {
-      from: process.env.FROM_EMAIL,
-      to,
-      subject,
-      html,
+      from: 'Task Management" <taskmanagement@example.com>',
+      to: emailBody.email,
+      subject: "Task Management - Reset Password",
+      text: `Click on the link to reset password : ${frontendURL}/${emailBody.userId}/${emailBody.resetPasswordToken} `,
     };
 
     const info = await transporter.sendMail(mailOptions);
-    console.log("Email sent: " + info.response);
     logger.info("Email sent: " + info.response);
+    return true;
   } catch (err) {
     logger.error(err);
+    return false;
   }
 };

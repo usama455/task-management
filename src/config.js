@@ -29,7 +29,6 @@ const config = {
     jwtSecret: requireProcessEnv("JWT_SECRET"),
     frontendURL: requireProcessEnv("FRONTEND_URL"),
     expiresIn: requireProcessEnv("TOKEN_EXPIRES_IN"),
-    saltFactor: requireProcessEnv("SALT_WORK_FACTOR")
   },
   test: {},
   production: {

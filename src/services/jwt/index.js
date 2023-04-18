@@ -1,9 +1,12 @@
 import jwt from "jsonwebtoken";
 import { jwtSecret, expiresIn } from "../../config";
 
-export const sign = ({ email, _id }) => {
+export const sign = ({ email, _id, expiryTime = expiresIn }) => {
   const today = new Date();
-  const expirationDate = new Date(today.getHours() + expiresIn);
+  let expirationDate;
+  expirationDate = new Date(
+    today.getTime() + parseInt(expiryTime, 10) * 60 * 1000
+  );
   return jwt.sign(
     {
       email,

@@ -9,7 +9,7 @@ import Card from "./model";
 
 export const createCard = async (req, res) => {
   try {
-    const { title, status, project, assignedTo, subTasks, comments } = req.body; 
+    const { title, status, project, assignedTo, subTasks, comments } = req.body;
 
     const newCard = new Card({
       title,

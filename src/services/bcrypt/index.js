@@ -1,8 +1,7 @@
 import { compare, genSalt, hash } from "bcrypt";
-import {saltFactor} from "../../config"
 
 export const genHash = async (password) => {
-  const salt = await genSalt(saltFactor);
+  const salt = await genSalt(10);
   password = await hash(password, salt);
   return password;
 };
