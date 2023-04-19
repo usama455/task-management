@@ -48,7 +48,14 @@ export const initializePassport = async (passport) => {
       },
       async (jwtPayload, done) => {
         const user = await User.findById(jwtPayload._id);
-        if (!user) return done(null, false);
+        if (!user)
+          return done(
+            {
+              status: responseStatus.notFound,
+              message: responseError.wrongEmail,
+            },
+            false
+          );
         return done(null, user);
       }
     )
@@ -59,8 +66,8 @@ export const initializePassport = async (passport) => {
   });
 
   passport.deserializeUser((id, done) => {
-    User.findById(id, (err, user) => {
-      done(err, user);
-    });
+    User.findById(id)
+      .then((user) => done(null, user))
+      .catch((err) => done(err));
   });
 };

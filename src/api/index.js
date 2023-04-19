@@ -2,10 +2,14 @@ import { Router } from "express";
 import user from "./user";
 import card from "./card";
 import passport from "passport";
+import { tokenValidator } from "../utils";
 
 const router = new Router();
 
+//Open Routes
 router.use("/user", user);
-router.use("/card", passport.authenticate("jwt", { session: false }), card);
+
+//ProtectedRoutes
+router.use("/card", tokenValidator, card);
 
 export default router;

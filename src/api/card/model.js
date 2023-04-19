@@ -9,7 +9,18 @@ const CardSchema = new Schema(
     },
     project: {
       type: String,
-      enum: ["General", "Design", "Development", "Marketing"], //Temp Array - Will be replaced with reference from Projects Collection
+      required: [true, "Project is required."],
+      enum: ["General", "Design", "Development", "Marketing"], //Will be replaced with reference from Projects Collection
+    },
+    status: {
+      type: String,
+      required: [true, "Status is required."],
+      enum: ["todo", "inProcess", "inReview", "completed"],
+    },
+    createdBy: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
     },
     assignedTo: [
       {
@@ -41,11 +52,6 @@ const CardSchema = new Schema(
         },
       },
     ],
-    status: {
-      type: String,
-      enum: ["todo", "inProcess", "inReview", "completed"],
-      default: "todo",
-    },
   },
   { timestamps: true }
 );

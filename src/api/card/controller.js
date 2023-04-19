@@ -9,28 +9,25 @@ import Card from "./model";
 
 export const createCard = async (req, res) => {
   try {
-    const { title, status, project, assignedTo, subTasks, comments } = req.body;
+    const userId = req.user._id;
+    const { title, status, project } = req.body;
 
     const newCard = new Card({
       title,
       status,
       project,
-      assignedTo,
-      subTasks,
-      comments,
+      createdBy: userId,
     });
 
     const cardInfo = await newCard.save();
-    await cardInfo.populate("assignedTo", "firstName lastName email");
+    await cardInfo.populate("createdBy", "firstName lastName email");
+
     const responseObject = {
       id: cardInfo.id,
       title: cardInfo.title,
       status: cardInfo.status,
-      project: cardInfo?.project,
-      assignedTo: cardInfo?.assignedTo,
-      subTasks: cardInfo?.subTasks,
-      comments: cardInfo?.comments,
-      updatedAt: cardInfo?.updatedAt,
+      createdBy: cardInfo.createdBy,
+      updatedAt: cardInfo.updatedAt,
     };
     return successResponse(
       res,
@@ -47,25 +44,23 @@ export const createCard = async (req, res) => {
 export const getAllCards = async (req, res) => {
   try {
     const cards = await Card.find()
+      .populate("createdBy", "firstName lastName email")
       .populate("assignedTo", "firstName lastName email")
       .select(
-        "title project assignedTo subTasks comments status updatedAt createdAt"
+        "title project assignedTo subTasks comments status createdBy updatedAt createdAt"
       )
       .sort({ updatedAt: -1 });
 
-    const cardsByStatus = {};
-
-    // Group cards by status
-    //todo-optimise this
-    cards.forEach((card) => {
-      if (!cardsByStatus[card.status]) {
-        cardsByStatus[card.status] = [card];
+    const cardsByStatus = cards.reduce((result, card) => {
+      const status = card.status;
+      if (!result[status]) {
+        result[status] = [card];
       } else {
-        cardsByStatus[card.status].push(card);
+        result[status].push(card);
       }
-    });
+      return result;
+    }, {});
 
-    // Create response object
     const responseObject = {};
     Object.keys(cardsByStatus).forEach((status) => {
       responseObject[status] = cardsByStatus[status];

@@ -8,25 +8,31 @@ import {
 } from "./controller";
 import {
   forgetPasswordValidations,
-  isValid,
   resetPasswordValidations,
   signUpVlidations,
 } from "./middleware";
+import { dataValidator } from "../../utils";
 
 const router = new Router();
 
-router.post("/register", signUpVlidations, isValid, checkUserExists, signup);
+router.post(
+  "/register",
+  signUpVlidations,
+  dataValidator,
+  checkUserExists,
+  signup
+);
 router.post("/login", login);
 router.post(
   "/forget-password",
   forgetPasswordValidations,
-  isValid,
+  dataValidator,
   forgetPassword
 );
 router.post(
   "/reset-password",
   resetPasswordValidations,
-  isValid,
+  dataValidator,
   resetPassword
 );
 

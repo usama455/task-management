@@ -8,6 +8,7 @@ import {
 } from "../../utils/response";
 import { sendEmail } from "../../services/nodemailer";
 import { sign } from "../../services/jwt";
+import jwt from "jsonwebtoken";
 
 export const checkUserExists = async (req, res, next) => {
   const { email } = req.body;
@@ -26,14 +27,14 @@ export const signup = async (req, res) => {
   try {
     const { firstName, lastName, email, password } = req.body;
     const newUser = new User({ firstName, lastName, email, password });
-    const userInfo = await newUser.save();
+    const userData = await newUser.save();
     const responseObject = {
-      id: userInfo.id,
-      firstName: userInfo.firstName,
-      lastName: userInfo.lastName,
-      email: userInfo.email,
-      createdAt: userInfo?.createdAt,
-      updatedAt: userInfo?.updatedAt,
+      id: userData.id,
+      firstName: userData.firstName,
+      lastName: userData.lastName,
+      email: userData.email,
+      createdAt: userData?.createdAt,
+      updatedAt: userData?.updatedAt,
     };
     return successResponse(
       res,
@@ -70,7 +71,11 @@ export const forgetPassword = async (req, res) => {
     const userData = await User.findOne({ email });
     if (!userData) {
       logger.error(responseError.notFound);
-      return errorResponse(res, responseError.message, responseStatus.notFound);
+      return errorResponse(
+        res,
+        responseError.notFound,
+        responseStatus.notFound
+      );
     }
     // Generate a token that expires in 15 minutes
     const resetPasswordToken = sign({
@@ -143,9 +148,18 @@ export const resetPassword = async (req, res) => {
     userData.resetPasswordToken = undefined;
 
     await userData.save();
+    const responseObject = {
+      id: userData.id,
+      firstName: userData.firstName,
+      lastName: userData.lastName,
+      email: userData.email,
+      createdAt: userData?.createdAt,
+      updatedAt: userData?.updatedAt,
+    };
+
     return successResponse(
       res,
-      null,
+      responseObject,
       responseMessage.updated,
       responseStatus.ok
     );

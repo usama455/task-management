@@ -7,7 +7,9 @@ export const createCardValidations = [
     .withMessage(
       "Project must be one of: General , Design, Development, Marketing"
     ),
-  body("assignedTo").isArray().withMessage("Assigned to must be an array."),
-  body("subTasks").isArray().withMessage("Sub tasks must be an array."),
-  body("comments").isArray().withMessage("Comments must be an array."),
+  body("status")
+    .isIn(["todo", "inProcess", "inReview", "completed"])
+    .withMessage(
+      "Project must be one of: todo, inProcess, inReview, completed"
+    ),
 ];
