@@ -9,7 +9,5 @@ export const createCardValidations = [
     ),
   body("status")
     .isIn(["todo", "inProcess", "inReview", "completed"])
-    .withMessage(
-      "Project must be one of: todo, inProcess, inReview, completed"
-    ),
+    .withMessage("Status must be one of: todo, inProcess, inReview, completed"),
 ];
