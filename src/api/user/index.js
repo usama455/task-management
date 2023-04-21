@@ -8,6 +8,7 @@ import {
 } from "./controller";
 import {
   forgetPasswordValidations,
+  passportValidation,
   resetPasswordValidations,
   signUpVlidations,
 } from "./middleware";
@@ -22,7 +23,7 @@ router.post(
   checkUserExists,
   signup
 );
-router.post("/login", login);
+router.post("/login", passportValidation, login);
 router.post(
   "/forget-password",
   forgetPasswordValidations,

@@ -7,5 +7,5 @@ export const genHash = async (password) => {
 };
 
 export const comparePassword = async (password, existingPassword) => {
-  return compare(password, existingPassword);
+  return await compare(password, existingPassword);
 };

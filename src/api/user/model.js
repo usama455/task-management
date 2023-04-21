@@ -42,7 +42,7 @@ UserSchema.pre("save", async function (next) {
 });
 
 UserSchema.methods.validatePassword = async function (password) {
-  return comparePassword(password, this.password);
+  return await comparePassword(password, this.password);
 };
 
 const User = model("User", UserSchema);

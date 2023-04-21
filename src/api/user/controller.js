@@ -48,17 +48,14 @@ export const signup = async (req, res) => {
   }
 };
 
-export const login = async (req, res, next) => {
+export const login = async (req, res) => {
   try {
-    await passport.authenticate("local", (err, token, info) => {
-      if (err) {
-        return errorResponse(res, err.message, err.status);
-      }
-      const responseObject = {
-        token,
-      };
-      return successResponse(res, responseObject);
-    })(req, res, next);
+    const token = sign(req.user.toJSON());
+    const responseObject = {
+      email: req.user.email,
+      token,
+    };
+    return successResponse(res, responseObject);
   } catch (err) {
     logger.error(err.message);
     return errorResponse(res, err.message);
@@ -88,7 +85,7 @@ export const forgetPassword = async (req, res) => {
       userId: userData._id,
       resetPasswordToken,
     };
-    let emailSent = await sendEmail(emailBody);
+    const emailSent = await sendEmail(emailBody);
     if (!emailSent) {
       return errorResponse(
         res,
@@ -112,8 +109,19 @@ export const forgetPassword = async (req, res) => {
 
 export const resetPassword = async (req, res) => {
   try {
-    const { email, resetPasswordToken, password } = req.body;
-    const userData = await User.findOne({ email });
+    const { resetPasswordToken, password } = req.body;
+
+    const decoded = jwt.decode(resetPasswordToken);
+    const userId = decoded._id;
+    if (decoded.exp && Date.now() >= decoded.exp * 1000) {
+      logger.error(responseError.expiredPasswordToken);
+      return errorResponse(
+        res,
+        responseError.expiredPasswordToken,
+        responseStatus.badRequest
+      );
+    }
+    const userData = await User.findById(userId);
     if (!userData) {
       logger.error(responseError.notFound);
       return errorResponse(res, responseError.message, responseStatus.notFound);
@@ -134,16 +142,6 @@ export const resetPassword = async (req, res) => {
         responseStatus.badRequest
       );
     }
-    const decoded = jwt.decode(resetPasswordToken);
-    if (decoded.exp && Date.now() >= decoded.exp * 1000) {
-      logger.error(responseError.expiredPasswordToken);
-      return errorResponse(
-        res,
-        responseError.expiredPasswordToken,
-        responseStatus.badRequest
-      );
-    }
-
     userData.password = password;
     userData.resetPasswordToken = undefined;
 

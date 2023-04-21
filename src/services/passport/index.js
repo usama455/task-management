@@ -10,23 +10,20 @@ const ExtractJWT = passportJWT.ExtractJwt;
 export const initializePassport = async (passport) => {
   const authenticateUser = async (email, password, done) => {
     const user = await User.findOne({ email });
-    if (user === null)
-      return done(
-        { status: responseStatus.notFound, message: responseError.wrongEmail },
-        false
-      );
+    if (!user) {
+      return done(null, false, {
+        status: responseStatus.unAuthorized,
+        message: responseError.wrongCredentials,
+      });
+    }
     try {
       if (!(await user.validatePassword(password))) {
-        return done(
-          {
-            status: responseStatus.unAuthorized,
-            message: responseError.wrongPassword,
-          },
-          false
-        );
+        return done(null, false, {
+          status: responseStatus.unAuthorized,
+          message: responseError.wrongCredentials,
+        });
       }
-      const token = sign(user.toJSON());
-      return done(null, token);
+      return done(null, user);
     } catch (err) {
       return done(err);
     }

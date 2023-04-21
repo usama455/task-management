@@ -21,20 +21,15 @@ if (process.env.NODE_ENV !== "production") {
 const config = {
   all: {
     env: process.env.NODE_ENV || "development",
-    root: path.join(__dirname, ".."),
-    port: process.env.PORT || 9000,
-    ip: process.env.IP || "0.0.0.0",
-    apiRoot: process.env.API_ROOT || "",
-    masterKey: requireProcessEnv("MASTER_KEY"), //todo
+    port: process.env.PORT || 3000,
+    apiRoot: requireProcessEnv("API_ROOT"),
+    masterKey: requireProcessEnv("MASTER_KEY"),
     jwtSecret: requireProcessEnv("JWT_SECRET"),
     frontendURL: requireProcessEnv("FRONTEND_URL"),
     expiresIn: requireProcessEnv("TOKEN_EXPIRES_IN"),
   },
-  test: {},
-  production: {
-    ip: process.env.IP || undefined,
-    port: process.env.PORT || 8080,
-  },
+  test: {}, // to be configured for test environement
+  production: {}, // to be configured for production environement
 };
 
 module.exports = merge(config.all, config[config.all.env]);

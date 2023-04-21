@@ -18,7 +18,7 @@ export const sendEmail = async (emailBody) => {
       from: 'Task Management" <taskmanagement@example.com>',
       to: emailBody.email,
       subject: "Task Management - Reset Password",
-      text: `Click on the link to reset password : ${frontendURL}/${emailBody.userId}/${emailBody.resetPasswordToken} `,
+      text: `Click on the link to reset password : ${frontendURL}/${emailBody.resetPasswordToken} `,
     };
 
     const info = await transporter.sendMail(mailOptions);

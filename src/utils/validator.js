@@ -1,6 +1,5 @@
 import { validationResult } from "express-validator";
-
-const passport = require("passport");
+import passport from "passport";
 const { errorResponse, responseStatus, responseError } = require("./response");
 
 export const tokenValidator = (req, res, next) => {

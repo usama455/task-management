@@ -1,11 +1,10 @@
 import express, { json, urlencoded } from "express";
-import forceSSL from "express-force-ssl";
 import cors from "cors";
 import compression from "compression";
 import { env, frontendURL } from "../../config";
 import passport from "passport";
 import { connectDatabase } from "../database";
-import session from "express-session"; //todo
+import session from "express-session";
 import { initializePassport } from "../passport";
 
 export default (apiRoot, routes) => {
@@ -23,16 +22,10 @@ export default (apiRoot, routes) => {
   app.use(passport.initialize());
   app.use(passport.session());
 
-  if (env === "production") {
-    app.set("forceSSLOptions", {
-      enable301Redirects: false,
-      trustXFPHeader: true,
-    });
-    app.use(forceSSL);
-  }
+  connectDatabase();
 
   if (env === "production" || env === "development") {
-    app.use(compression()); // todo
+    app.use(compression());
   }
   app.use(
     cors({
@@ -41,9 +34,8 @@ export default (apiRoot, routes) => {
     })
   );
 
-  connectDatabase();
-  app.use(json()); //todo
-  app.use(urlencoded({ extended: false })); //todo
+  app.use(json());
+  app.use(urlencoded({ extended: false }));
 
   app.use(apiRoot, routes);
 

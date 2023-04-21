@@ -28,6 +28,7 @@ export const responseError = {
   wrongEmail: "Wrong Email",
   wrongMasterKey: "Wrong Master Key",
   wrongPassword: "Wrong Password",
+  wrongCredentials: "Wrong Credentials",
   passwordPolicyError: "Password must be between 8 and 50 characters",
   userExists: "Another user with this email is already registered",
   expiredPasswordToken: "Reset password token expired",
