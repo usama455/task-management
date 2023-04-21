@@ -85,6 +85,7 @@ export const forgetPassword = async (req, res) => {
       userId: userData._id,
       resetPasswordToken,
     };
+    //node mailer has test config for the task
     const emailSent = await sendEmail(emailBody);
     if (!emailSent) {
       return errorResponse(
@@ -93,7 +94,7 @@ export const forgetPassword = async (req, res) => {
         responseStatus.internalError
       );
     }
-
+    // resetPasswordToken is only in response for test, it will be removed when nodemailer is configured
     userData.resetPasswordToken = resetPasswordToken;
     await userData.save();
     const responseObject = {
