@@ -22,6 +22,10 @@ const config = {
   all: {
     env: process.env.NODE_ENV || "development",
     port: process.env.PORT || 3000,
+    nodeMailerHost: process.env.MAILER_HOST,
+    nodeMailerPort: process.env.MAILER_PORT,
+    nodeMailerUser: process.env.MAILER_USER,
+    nodeMailerPassword: process.env.MAILER_PASSWORD,
     apiRoot: requireProcessEnv("API_ROOT"),
     masterKey: requireProcessEnv("MASTER_KEY"),
     jwtSecret: requireProcessEnv("JWT_SECRET"),

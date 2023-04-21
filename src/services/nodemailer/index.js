@@ -5,13 +5,14 @@ export const sendEmail = async (emailBody) => {
   try {
     let testAccount = await nodemailer.createTestAccount();
 
+    //Fake config for testing - use values from config
     const transporter = nodemailer.createTransport({
-      host: "smtp.ethereal.email",
-      port: 587,
+      host: "smtp.ethereal.email", // use nodeMailerHost from config
+      port: 587, // use nodeMailerPort from config
       secure: false,
       auth: {
-        user: testAccount.user, // generated fake ethereal user
-        pass: testAccount.pass, // generated fake ethereal password
+        user: testAccount.user, // generated fake ethereal user - use nodeMailerUser from config
+        pass: testAccount.pass, // generated fake ethereal password -  use nodeMailerPassword from config
       },
     });
     const mailOptions = {
